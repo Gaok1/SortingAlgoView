@@ -1,7 +1,6 @@
 use crate::Tools::Op::Matriz::{SortType, print_Matriz, Operations, shuffle};
 use crate::Tools::Op::Constantes::*;
 
-use rand::Rng;
 
 
 pub fn Sort(array: &mut [usize;width], matriz: &mut [[&str;width];height]){

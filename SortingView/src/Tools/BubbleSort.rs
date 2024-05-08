@@ -13,7 +13,7 @@ pub fn sort(array: &mut [usize;width], matriz: &mut [[&str;width];height]){
                 op.comp += 1;
                 op.time = start.elapsed().as_millis();
                 if(j % delay == 0){
-                    print_Matriz(matriz, array, 0, SortType::Range_Unique(j),&op);
+                    print_Matriz(matriz, array, 0, SortType::two_range(j,j+1),&op);
                 }
             }
         }
