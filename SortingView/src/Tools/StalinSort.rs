@@ -3,7 +3,7 @@ use crate::Tools::Op::Constantes::*;
 
 
 //stalinSort
-pub fn Sort(array: &mut [usize;width], matriz: &mut [[&str;width];height]){
+pub fn sort(array: &mut [usize;width], matriz: &mut [[&str;width];height]){
     let mut newarray = copyArray(array);
 
     let mut op = Operations{time:0, movs:0, comp:0};
@@ -17,13 +17,13 @@ pub fn Sort(array: &mut [usize;width], matriz: &mut [[&str;width];height]){
             op.movs += 1;
             op.comp += 1;
             op.time = start.elapsed().as_millis();
-            print_Matriz(matriz, &newarray, i, SortType::Range_Unique(i), &op);
+            print_Matriz(matriz, &newarray,  SortType::RangeUnique(i), &op);
         }else{
             i += 1;
         }
     }
     for i in 0..newarray.len(){
-        print_Matriz(matriz, &newarray, i+1, SortType::Range_Unique(i+1), &op);
+        print_Matriz(matriz, &newarray,  SortType::RangeUnique(i+1), &op);
     }
 }
 

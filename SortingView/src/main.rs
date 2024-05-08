@@ -20,13 +20,14 @@ use Tools::BogoSort;
 use Tools::BubbleSort;
 
 use crate::Tools::CocktailShaker;
+use crate::Tools::InserctionSort;
 use crate::Tools::MergeSort;
 use crate::Tools::Op::Constantes::RED;
 use crate::Tools::Op::Matriz::shuffle;
 use crate::Tools::Op::Constantes::{width, height, AMBER, RESET_COLOR, hide_cursor};
-use crate ::Tools::SelectionSort::selectionSort;
-use crate ::Tools::InserctionSort::inserctionSort;
-use crate ::Tools::QuickSort::quickSort;
+use crate::Tools::QuickSort;
+
+use crate::Tools::SelectionSort;
 use crate ::Tools::StalinSort;
 
 fn clear(){
@@ -36,7 +37,7 @@ fn clear(){
 
 fn main() {
     let mut matriz : [[&str;width];height] = [[" ";width];height];
-    let mut array = generateRandomArray();
+    let mut array = generate_random_array();
     
 
     loop {
@@ -64,15 +65,15 @@ fn main() {
             }
             "1" => {
                 println!("Selecionou Selection Sort");
-                selectionSort(&mut array, &mut matriz)
+                SelectionSort::sort(&mut array, &mut matriz)
             }
             "2" => {
                 println!("Selecionou Insertion Sort");
-                inserctionSort(&mut array, &mut matriz)
+                InserctionSort::sort(&mut array, &mut matriz)
             }
             "-0" =>{
                 println!("Selecionou Bogo Sort");
-                BogoSort::Sort(&mut array, &mut matriz);
+                BogoSort::sort(&mut array, &mut matriz);
             }
             "3" => {
                 println!("Selecionou Bubble Sort");
@@ -80,15 +81,15 @@ fn main() {
             }
             "4" => {
                 println!("Selecionou Quick Sort");
-                quickSort(&mut array, &mut matriz);
+                QuickSort::sort(&mut array, &mut matriz);
             }
             "5" => {
                 println!("Selecionou Stalin Sort");
-                StalinSort::Sort(&mut array, &mut matriz);
+                StalinSort::sort(&mut array, &mut matriz);
             }
             "6" => {
                 println!("Selecionou Cocktail Shaker Sort");
-                CocktailShaker::Sort(&mut array, &mut matriz);
+                CocktailShaker::sort(&mut array, &mut matriz);
             }
             "7" => {
                 println!("Selecionou Merge Sort");
@@ -109,7 +110,7 @@ fn main() {
 
 
 
-fn generateRandomArray() -> [usize;width]{
+fn generate_random_array() -> [usize;width]{
     let mut array = [0;width];
     let mut gen = rand::thread_rng();
     for i in 0..width{

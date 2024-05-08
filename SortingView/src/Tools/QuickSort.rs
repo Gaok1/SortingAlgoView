@@ -3,14 +3,14 @@ use crate::Tools::Op::Constantes::*;
 use std::thread;
 use std::time::Duration;
 
-pub fn quickSort(array: &mut [usize;width], matriz: &mut [[&str;width];height]) {
+pub fn sort(array: &mut [usize;width], matriz: &mut [[&str;width];height]) {
     let mut op = Operations{time: 0, movs: 0, comp: 0};
     let start = std::time::Instant::now();
 
     quick_sort_helper(array, 0, array.len() - 1, matriz, &mut op, start);
 
     for i in 0..array.len(){
-        print_Matriz(matriz, array, i+1, SortType::Range_Unique(i+1), &op);
+        print_Matriz(matriz, array,  SortType::RangeUnique(i+1), &op);
     }
 }
 
@@ -36,14 +36,14 @@ fn partition(array: &mut [usize;width], low: usize, high: usize, op: &mut Operat
         }
         op.comp += 1;
         op.time = start.elapsed().as_millis();
-            print_Matriz(matriz, array, j, SortType::two_range(j,pivot), op);
+            print_Matriz(matriz, array,  SortType::TwoRange(j,pivot), op);
             //thread::sleep(Duration::from_millis(5));
     }
     
     array.swap(i, high);
     op.movs += 3;
     op.time = start.elapsed().as_millis();
-    print_Matriz(matriz, array, high, SortType::two_range(i,high), op);
+    print_Matriz(matriz, array,  SortType::TwoRange(i,high), op);
     //thread::sleep(Duration::from_millis(5));
 
     i

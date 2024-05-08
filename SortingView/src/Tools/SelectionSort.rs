@@ -1,7 +1,7 @@
 use crate::Tools::Op::Matriz::{SortType, print_Matriz, Operations};
 use crate::Tools::Op::Constantes::*;
 
-pub fn selectionSort(array: &mut [usize;width], matriz: &mut [[&str;width];height]){
+pub fn sort(array: &mut [usize;width], matriz: &mut [[&str;width];height]){
     let thisDelay = delay *2;
     let mut op = Operations{time:0, movs:0, comp:0};
     let start = std::time::Instant::now();
@@ -13,7 +13,7 @@ pub fn selectionSort(array: &mut [usize;width], matriz: &mut [[&str;width];heigh
             }
             op.comp += 1;
             if(j % thisDelay == 0){
-                print_Matriz(matriz, array, i, SortType::Range_Unique(j),&op);
+                print_Matriz(matriz, array,  SortType::RangeUnique(j),&op);
             }
         }
         array.swap(i,min);
@@ -21,6 +21,6 @@ pub fn selectionSort(array: &mut [usize;width], matriz: &mut [[&str;width];heigh
         op.time = start.elapsed().as_millis();
     }//sorted
     for i in 0..array.len(){
-        print_Matriz(matriz, array, i+1, SortType::Range_Unique(i+1), &op);
+        print_Matriz(matriz, array,  SortType::RangeUnique(i+1), &op);
     }
 }

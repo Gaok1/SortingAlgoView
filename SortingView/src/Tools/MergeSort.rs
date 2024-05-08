@@ -1,9 +1,9 @@
-use std::thread;
+//use std::thread;
 
 use crate::Tools::Op::Matriz::{SortType, print_Matriz, Operations};
 use crate::Tools::Op::Constantes::*;
 
-use std::time::Duration;
+// use std::time::Duration;
 
 pub fn sort(array: &mut [usize; width], matriz: &mut [[&str; width]; height]) {
     let mut op = Operations { time: 0, movs: 0, comp: 0 };
@@ -11,7 +11,7 @@ pub fn sort(array: &mut [usize; width], matriz: &mut [[&str; width]; height]) {
     merge_sort(array, 0, array.len() - 1, matriz, &mut op,start);
     op.time = start.elapsed().as_millis();
     for i in 0..array.len() {
-        print_Matriz(matriz, array, i + 1, SortType::Range_Unique(i + 1), &op);
+        print_Matriz(matriz, array,  SortType::RangeUnique(i + 1), &op);
     }
 }
 
@@ -55,7 +55,7 @@ fn merge(array: &mut [usize; width], l: usize, m: usize, r: usize, matriz: &mut 
         op.comp += 1;
         op.time = start.elapsed().as_millis();
         if k % delay == 0 {
-            print_Matriz(matriz, array, k, SortType::Range_Unique(k), op);
+            print_Matriz(matriz, array,  SortType::RangeUnique(k), op);
         }
     }
 
@@ -66,7 +66,7 @@ fn merge(array: &mut [usize; width], l: usize, m: usize, r: usize, matriz: &mut 
         op.time = start.elapsed().as_millis();
         op.movs += 1;
         if k % delay == 0 {
-            print_Matriz(matriz, array, k, SortType::Range_Unique(k), op);
+            print_Matriz(matriz, array,  SortType::RangeUnique(k), op);
         }
     }
 
@@ -77,7 +77,7 @@ fn merge(array: &mut [usize; width], l: usize, m: usize, r: usize, matriz: &mut 
         op.time = start.elapsed().as_millis();
         op.movs += 1;
         if k % delay == 0 {
-            print_Matriz(matriz, array, k, SortType::Range_Unique(k), op);
+            print_Matriz(matriz, array,  SortType::RangeUnique(k), op);
         }
     }
 }

@@ -9,7 +9,7 @@ use std::time::Duration;
  * @param matriz: &mut [[&str;width];height] - Matrix to be printed
  * @return void
  */
-pub fn Sort(array: &mut [usize;width], matriz: &mut [[&str;width];height]) -> () {
+pub fn sort(array: &mut [usize;width], matriz: &mut [[&str;width];height]) -> () {
     let this_delay = delay * 2;
     let mut op = Operations { time: 0, movs: 0, comp: 0 };
     let start_time = std::time::Instant::now();
@@ -29,7 +29,7 @@ pub fn Sort(array: &mut [usize;width], matriz: &mut [[&str;width];height]) -> ()
             }
             op.comp += 1;
             if i % this_delay == 0 {
-                print_Matriz(matriz, array, i, SortType::two_range(i,i+1), &op);
+                print_Matriz(matriz, array,  SortType::TwoRange(i,i+1), &op);
                 
             }
         }
@@ -51,7 +51,7 @@ pub fn Sort(array: &mut [usize;width], matriz: &mut [[&str;width];height]) -> ()
             }
             op.comp += 1;
             if i % this_delay == 0 {
-                print_Matriz(matriz, array, i, SortType::two_range(i,i+1), &op);
+                print_Matriz(matriz, array,  SortType::TwoRange(i,i+1), &op);
                 
             }
         }
@@ -60,7 +60,7 @@ pub fn Sort(array: &mut [usize;width], matriz: &mut [[&str;width];height]) -> ()
 
     op.time = start_time.elapsed().as_millis();
     for i in 0..array.len() {
-        print_Matriz(matriz, array, i + 1, SortType::Range_Unique(i + 1), &op);
+        print_Matriz(matriz, array,  SortType::RangeUnique(i + 1), &op);
         
     }
 }

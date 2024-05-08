@@ -4,50 +4,45 @@ use std::{io::{self, Write}, thread};
 
 
 pub enum SortType {
-    Range, //cor unica
-    Range_Unique(usize), // a cor varia de 0 a range e um especial (caso de inserctionSort)
-    two_range(usize,usize),
+    RangeUnique(usize), // a cor varia de 0 a range e um especial (caso de inserctionSort)
+    TwoRange(usize,usize),
+    Void,
 }
-
+/**
+ * # Struct Operations
+ * it's a struct that contains the time, movs and comp operations
+ */
 pub struct Operations{
     pub time: u128,
     pub movs: u64,
     pub comp: u64,
 }
 
-fn get_index(sort_t:&SortType,sorted_mark:&usize) -> usize{
-    match sort_t{
-        SortType::Range => *sorted_mark,
-        SortType::Range_Unique(index) => *index,
-        SortType::two_range(index,temp ) => *index
-    }
-}
 
-pub fn print_Matriz(matriz: &mut [[&str;width];height], array: &[usize;width] , sorted_mark:usize, sort_type:SortType, data:&Operations){
+
+/**
+ * # Function print_Matriz
+ * ## Arguments 
+ * * matriz: &mut [[&str;width];height] - a matriz that will be printed
+ * * array: &[usize;width] - the array that will be printed
+ * * sort_type: SortType - the type of printing that will be done(1 index or 2 indexes), 
+ * * data: &Operations - the operations that will be printed
+*/
+pub fn print_Matriz(matriz: &mut [[&str;width];height], array: &[usize;width] , sort_type:SortType, data:&Operations){
     
-    let index = get_index(&sort_type,&sorted_mark);
      let mut buffer =  format!(
             "⏱ Tempo: \x1b[1;34m[{} mls]\x1b[0m   🚀 Movimentações: \x1b[1;32m[{}]\x1b[0m   🎯 Comparações: \x1b[1;33m[{}]\x1b[0m",
             data.time, data.movs, data.comp
         );
-    if(index <width){
-       buffer+= format!("Array[index]: \x1b[1;32m[{}]\x1b[0m",array[index]).as_str();
-    }
     
     for j in 0..width{ //
-        let color:&str = digit;
         let value = array[j];
         let grey_area = height - value;
         match sort_type{
-            SortType::Range =>{
-                for i in grey_area..height{
-                    matriz[i][j] = color;
-                }
-            }
-            SortType::Range_Unique(special)=>{
+            SortType::RangeUnique(special)=>{
                 if j != special{
                     for i in grey_area..height{
-                        matriz[i][j] = color;
+                        matriz[i][j] = digit;
                     }
                 }else{
                     for i in grey_area..height{
@@ -55,7 +50,7 @@ pub fn print_Matriz(matriz: &mut [[&str;width];height], array: &[usize;width] , 
                     }
                 }
             }
-            SortType::two_range(index,temp ) =>{
+            SortType::TwoRange(index,temp ) =>{
                 if j == index{
                     for i in grey_area..height{
                         matriz[i][j] = digit_red;
@@ -68,8 +63,13 @@ pub fn print_Matriz(matriz: &mut [[&str;width];height], array: &[usize;width] , 
                 }
                 else {
                     for i in grey_area..height{
-                        matriz[i][j] = color;
+                        matriz[i][j] = digit;
                     }
+                }
+            }
+            SortType::Void =>{
+                for i in grey_area..height{
+                    matriz[i][j] = digit;
                 }
             }
         }
@@ -99,18 +99,16 @@ pub fn print_Matriz(matriz: &mut [[&str;width];height], array: &[usize;width] , 
 
 
 pub fn shuffle(array: &mut [usize;width], matriz: &mut [[&str;width];height]){
-    
-
     let op = Operations{time:0, movs:0, comp:0};
     let mut gen = rand::thread_rng();
     for i in 0..array.len(){
         let j = gen.gen_range(0..array.len());
         array.swap(i,j);
         if i % delay == 0{
-            print_Matriz(matriz, array, i+1, SortType::Range, &op);
+            print_Matriz(matriz, array, SortType::RangeUnique(i), &op);
         }
     }
-    print_Matriz(matriz, array, array.len(), SortType::Range, &op);
+    print_Matriz(matriz, array, SortType::Void, &op);
 }
 
 
