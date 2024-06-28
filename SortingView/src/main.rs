@@ -108,8 +108,8 @@ fn main() {
 
 
 
-
-
+///Generate a random array of usize with a fixed width
+/// ## Based on the width, the array will be generated with random values
 fn generate_random_array() -> [usize;width]{
     let mut array = [0;width];
     let mut gen = rand::thread_rng();
