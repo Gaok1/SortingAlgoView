@@ -32,7 +32,7 @@ use crate ::Tools::StalinSort;
 
 fn clear(){
     print!("\x1B[2J\x1B[1;1H");
-    print!("{}",hide_cursor);
+    
 }
 
 fn main() {
@@ -41,9 +41,9 @@ fn main() {
     
 
     loop {
-        
-        println!("\nEscolha uma opção:");
-        println!("-0. Bogo Sort (Não recomendado!!!!!)");
+
+        println!("\nChoose an Option:");
+        println!("-0. Bogo Sort (Don't do it !!!!!)");
         println!(" 0. Shuffle");
         println!(" 1. Selection Sort");
         println!(" 2. Insertion Sort");
@@ -60,46 +60,46 @@ fn main() {
         print!("{}",AMBER);
         match input.trim() {
             "0" =>{
-                println!("Selecionou Shuffle");
+                println!("Shuffle");
                 shuffle(&mut array, &mut matriz);
             }
             "1" => {
-                println!("Selecionou Selection Sort");
+                println!("Selection Sort Selected!");
                 SelectionSort::sort(&mut array, &mut matriz)
             }
             "2" => {
-                println!("Selecionou Insertion Sort");
+                println!("Insertion Sort Selected!");
                 InserctionSort::sort(&mut array, &mut matriz)
             }
             "-0" =>{
-                println!("Selecionou Bogo Sort");
+                println!("Bogo Sort Selected!");
                 BogoSort::sort(&mut array, &mut matriz);
             }
             "3" => {
-                println!("Selecionou Bubble Sort");
+                println!("Bubble Sort Selected!");
                 BubbleSort::sort(&mut array, &mut matriz);
             }
             "4" => {
-                println!("Selecionou Quick Sort");
+                println!("Quick Sort Selected!");
                 QuickSort::sort(&mut array, &mut matriz);
             }
             "5" => {
-                println!("Selecionou Stalin Sort");
+                println!("Stalin Sort Selected!");
                 StalinSort::sort(&mut array, &mut matriz);
             }
             "6" => {
-                println!("Selecionou Cocktail Shaker Sort");
+                println!("Cocktail Shaker Sort Selected!");
                 CocktailShaker::sort(&mut array, &mut matriz);
             }
             "7" => {
-                println!("Selecionou Merge Sort");
+                println!("Merge Sort Selected!");
                 MergeSort::sort(&mut array, &mut matriz);
             }
             "q" => {
                 println!("Saindo...");
                 break;
             }
-            _ => println!("{} Opção inválida! {}",RED,RESET_COLOR),
+            _ => println!("{} is invalid! {}",RED,RESET_COLOR),
         }
         print!("{}",RESET_COLOR);
         //limpar stdin

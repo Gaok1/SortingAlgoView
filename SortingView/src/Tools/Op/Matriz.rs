@@ -48,7 +48,7 @@ pub struct Operations{
 pub fn print_Matriz(matriz: &mut [[&str;width];height], array: &[usize;width] , sort_type:SortType, data:&Operations){
     
      let mut buffer =  format!(
-            "⏱ Tempo: \x1b[1;34m[{} mls]\x1b[0m   🚀 Movimentações: \x1b[1;32m[{}]\x1b[0m   🎯 Comparações: \x1b[1;33m[{}]\x1b[0m",
+            "⏱ Time: \x1b[1;34m[{} mls]\x1b[0m   🚀 Moves: \x1b[1;32m[{}]\x1b[0m   🎯 Comparations: \x1b[1;33m[{}]\x1b[0m",
             data.time, data.movs, data.comp
         );
     
