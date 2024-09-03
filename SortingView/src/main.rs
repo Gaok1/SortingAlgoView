@@ -19,16 +19,16 @@ mod Tools{
 use Tools::BogoSort;
 use Tools::BubbleSort;
 
-use crate::Tools::CocktailShaker;
-use crate::Tools::InserctionSort;
-use crate::Tools::MergeSort;
-use crate::Tools::Op::Constantes::RED;
-use crate::Tools::Op::Matriz::shuffle;
-use crate::Tools::Op::Constantes::{width, height, AMBER, RESET_COLOR, hide_cursor};
-use crate::Tools::QuickSort;
+use Tools::CocktailShaker;
+use Tools::InserctionSort;
+use Tools::MergeSort;
+use Tools::Op::Constantes::RED;
+use Tools::Op::Matriz::shuffle;
+use Tools::Op::Constantes::{width, height, AMBER, RESET_COLOR, hide_cursor};
+use Tools::QuickSort;
 
-use crate::Tools::SelectionSort;
-use crate ::Tools::StalinSort;
+use Tools::SelectionSort;
+use Tools::StalinSort;
 
 fn clear(){
     print!("\x1B[2J\x1B[1;1H");
