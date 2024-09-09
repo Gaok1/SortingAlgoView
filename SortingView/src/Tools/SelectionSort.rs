@@ -1,26 +1,27 @@
-use crate::Tools::Op::Matriz::{SortType, print_Matriz, Operations};
+use crate::Tools::Op::interface::{SortType, print_Matriz, Sorting};
 use crate::Tools::Op::Constantes::*;
 
-pub fn sort(array: &mut [usize;width], matriz: &mut [[&str;width];height]){
-    let thisDelay = delay *2;
-    let mut op = Operations{time:0, movs:0, comp:0};
+pub fn sort(sorting: &mut Sorting) {
+    let this_delay = sorting.get_delay() * 2;
     let start = std::time::Instant::now();
-    for i in 0..array.len(){
+    for i in 0..sorting.array.len() {
         let mut min = i;
-        for j in i+1..array.len(){
-            if array[j] < array[min]{
+        for j in i + 1..sorting.array.len() {
+            if sorting.array[j] < sorting.array[min] {
                 min = j;
             }
-            op.comp += 1;
-            if(j % thisDelay == 0){
-                print_Matriz(matriz, array,  SortType::RangeUnique(j),&op);
+            sorting.operations.comp += 1;
+            if j % this_delay == 0 {
+                print_Matriz(sorting, SortType::RangeUnique(j));
             }
         }
-        array.swap(i,min);
-        op.movs += 3;
-        op.time = start.elapsed().as_millis();
-    }//sorted
-    for i in 0..array.len(){
-        print_Matriz(matriz, array,  SortType::RangeUnique(i+1), &op);
+        sorting.array.swap(i, min);
+        sorting.operations.movs += 3;
+        sorting.operations.time = start.elapsed().as_millis();
+    }
+    
+    // Finalizar com o array ordenado
+    for i in 0..sorting.array.len() {
+        print_Matriz(sorting, SortType::RangeUnique(i + 1));
     }
 }

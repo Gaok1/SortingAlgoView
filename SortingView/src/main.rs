@@ -1,10 +1,12 @@
+use std::vec;
+
 //random
 use rand::Rng;
 
 mod Tools{
     pub mod Op{
         pub mod Constantes;
-        pub mod Matriz;
+        pub mod interface;
     }
     pub mod SelectionSort;
     pub mod InserctionSort;
@@ -23,25 +25,78 @@ use Tools::CocktailShaker;
 use Tools::InserctionSort;
 use Tools::MergeSort;
 use Tools::Op::Constantes::RED;
-use Tools::Op::Matriz::shuffle;
-use Tools::Op::Constantes::{width, height, AMBER, RESET_COLOR, hide_cursor};
+use Tools::Op::interface::*;
+use Tools::Op::Constantes::{AMBER, RESET_COLOR, hide_cursor};
 use Tools::QuickSort;
 
 use Tools::SelectionSort;
 use Tools::StalinSort;
+
 
 fn clear(){
     print!("\x1B[2J\x1B[1;1H");
     
 }
 
-fn main() {
-    let mut matriz : [[&str;width];height] = [[" ";width];height];
-    let mut array = generate_random_array();
+const STANDARD_DELAY: usize = 10;
+const STANDARD_WIDTH: usize = 200;
+const STANDARD_HEIGHT: usize = 50;
+
+fn config_menu(sorting : &mut Sorting){
+ //change width(quantity of numbers), height (max number value), delay
+    println!("{}Status of Structure{}",AMBER,RESET_COLOR);
+    println!("Width: {}",sorting.array.len());
+    println!("Height: {}",sorting.matriz.len());
+    println!("Delay: {}",sorting.get_delay());
+    println!("Config Menu");
+    println!("1. Change Width");
+    println!("2. Change Height");
+    println!("3. Change Delay");
+    println!("5. Reset");
+    println!("6. Back");
+    let mut input = String::new();
+    std::io::stdin().read_line(&mut input).unwrap();
+    match input.trim() {
+        "1" => {
+            println!("Change Width");
+            let mut width = String::new();
+            std::io::stdin().read_line(&mut width).unwrap();
+            let width: usize = width.trim().parse().unwrap();
+            *sorting = Sorting::new(width, sorting.matriz.len());
+        }
+        "2" => {
+            println!("Change Height");
+            let mut height = String::new();
+            std::io::stdin().read_line(&mut height).unwrap();
+            let height: usize = height.trim().parse().unwrap();
+            *sorting = Sorting::new(sorting.array.len(), height);
+        }
+        "3" => {
+            println!("Change Delay");
+            let mut delay = String::new();
+            std::io::stdin().read_line(&mut delay).unwrap();
+            let delay: usize = delay.trim().parse().unwrap();
+            sorting.set_delay(delay);
+        }
+        "5" => {
+            println!("Reset");
+            *sorting = Sorting::new(STANDARD_WIDTH, STANDARD_HEIGHT);
+        }
+        "6" => {
+            println!("Backing...");
+        }
+        _ => println!("{} is invalid! {}",RED,RESET_COLOR),
+    }
+}
     
 
+fn main() {
+    let mut height = 50;
+    let mut width = 200;
+    print!("{hide_cursor}");
+    let mut sorting_interface: Sorting = Sorting::new(width, height);
+    
     loop {
-
         println!("\nChoose an Option:");
         println!("-0. Bogo Sort (Don't do it !!!!!)");
         println!(" 0. Shuffle");
@@ -52,6 +107,7 @@ fn main() {
         println!(" 5. Stalin Sort");
         println!(" 6. Cocktail Shaker Sort");
         println!(" 7. Merge Sort");
+        println!(" *. config menu");
         println!(" q. Sair");
 
         let mut input = String::new();
@@ -61,39 +117,42 @@ fn main() {
         match input.trim() {
             "0" =>{
                 println!("Shuffle");
-                shuffle(&mut array, &mut matriz);
+                shuffle(&mut sorting_interface);
             }
             "1" => {
                 println!("Selection Sort Selected!");
-                SelectionSort::sort(&mut array, &mut matriz)
+                SelectionSort::sort(&mut sorting_interface)
             }
             "2" => {
                 println!("Insertion Sort Selected!");
-                InserctionSort::sort(&mut array, &mut matriz)
+                InserctionSort::sort(&mut sorting_interface)
             }
             "-0" =>{
                 println!("Bogo Sort Selected!");
-                BogoSort::sort(&mut array, &mut matriz);
+                BogoSort::sort(&mut sorting_interface);
             }
             "3" => {
                 println!("Bubble Sort Selected!");
-                BubbleSort::sort(&mut array, &mut matriz);
+                BubbleSort::sort(&mut sorting_interface);
             }
             "4" => {
                 println!("Quick Sort Selected!");
-                QuickSort::sort(&mut array, &mut matriz);
+                QuickSort::sort(&mut sorting_interface);
             }
             "5" => {
                 println!("Stalin Sort Selected!");
-                StalinSort::sort(&mut array, &mut matriz);
+                StalinSort::sort(&mut sorting_interface);
             }
             "6" => {
                 println!("Cocktail Shaker Sort Selected!");
-                CocktailShaker::sort(&mut array, &mut matriz);
+                CocktailShaker::sort(&mut sorting_interface);
             }
             "7" => {
                 println!("Merge Sort Selected!");
-                MergeSort::sort(&mut array, &mut matriz);
+                MergeSort::sort(&mut sorting_interface);
+            }
+            "*"=>{
+                config_menu(&mut sorting_interface);
             }
             "q" => {
                 println!("Saindo...");
@@ -105,18 +164,4 @@ fn main() {
         //limpar stdin
     }
 }
-
-
-
-///Generate a random array of usize with a fixed width
-/// ## Based on the width, the array will be generated with random values
-fn generate_random_array() -> [usize;width]{
-    let mut array = [0;width];
-    let mut gen = rand::thread_rng();
-    for i in 0..width{
-        array[i] = gen.gen_range(1..height);
-    }
-    array
-}
-
 

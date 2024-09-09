@@ -1,50 +1,45 @@
-use crate::Tools::Op::Matriz::{SortType, print_Matriz, Operations};
+use crate::Tools::Op::interface::{SortType, print_Matriz, Sorting};
 use crate::Tools::Op::Constantes::*;
-use std::thread;
-use std::time::Duration;
+use std::time::Instant;
 
-pub fn sort(array: &mut [usize;width], matriz: &mut [[&str;width];height]) {
-    let mut op = Operations{time: 0, movs: 0, comp: 0};
-    let start = std::time::Instant::now();
+pub fn sort(sorting: &mut Sorting) {
+    let start = Instant::now();
+    quick_sort_helper(sorting, 0, sorting.array.len() - 1, start);
 
-    quick_sort_helper(array, 0, array.len() - 1, matriz, &mut op, start);
-
-    for i in 0..array.len(){
-        print_Matriz(matriz, array,  SortType::RangeUnique(i+1), &op);
+    for i in 0..sorting.array.len() {
+        print_Matriz(sorting, SortType::RangeUnique(i + 1));
     }
 }
 
-fn quick_sort_helper(array: &mut [usize;width], low: usize, high: usize, matriz: &mut [[&str;width];height], op: &mut Operations, start: std::time::Instant) {
+fn quick_sort_helper(sorting: &mut Sorting, low: usize, high: usize, start: Instant) {
     if low < high {
-        let pivot_index = partition(array, low, high, op, start,matriz);
+        let pivot_index = partition(sorting, low, high, start);
         
-        
-        quick_sort_helper(array, low, pivot_index.saturating_sub(1), matriz, op, start);
-        quick_sort_helper(array, pivot_index + 1, high, matriz, op, start);
+        // Recursivamente chamar o quick_sort_helper para a esquerda e direita do pivô
+        quick_sort_helper(sorting, low, pivot_index.saturating_sub(1), start);
+        quick_sort_helper(sorting, pivot_index + 1, high, start);
     }
 }
 
-fn partition(array: &mut [usize;width], low: usize, high: usize, op: &mut Operations, start: std::time::Instant, matriz: &mut [[&str;width];height]) -> usize {
-    let pivot = array[high];
+fn partition(sorting: &mut Sorting, low: usize, high: usize, start: Instant) -> usize {
+    let pivot = sorting.array[high];
     let mut i = low;
 
     for j in low..high {
-        if array[j] <= pivot {
-            array.swap(i, j);
+        if sorting.array[j] <= pivot {
+            sorting.array.swap(i, j);
             i += 1;
-            op.movs += 3;
+            sorting.operations.movs += 3;
         }
-        op.comp += 1;
-        op.time = start.elapsed().as_millis();
-            print_Matriz(matriz, array,  SortType::TwoRange(j,pivot), op);
-            //thread::sleep(Duration::from_millis(5));
+        sorting.operations.comp += 1;
+        sorting.operations.time = start.elapsed().as_millis();
+        print_Matriz(sorting, SortType::TwoRange(j, pivot));
     }
     
-    array.swap(i, high);
-    op.movs += 3;
-    op.time = start.elapsed().as_millis();
-    print_Matriz(matriz, array,  SortType::TwoRange(i,high), op);
-    //thread::sleep(Duration::from_millis(5));
+    sorting.array.swap(i, high);
+    sorting.operations.movs += 3;
+    sorting.operations.time = start.elapsed().as_millis();
+    print_Matriz(sorting, SortType::TwoRange(i, high));
 
     i
 }

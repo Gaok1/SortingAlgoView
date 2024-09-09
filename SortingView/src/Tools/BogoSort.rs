@@ -1,29 +1,29 @@
-use crate::Tools::Op::Matriz::{SortType, print_Matriz, Operations, shuffle};
+use crate::Tools::Op::interface::{SortType, print_Matriz, shuffle, Sorting};
 use crate::Tools::Op::Constantes::*;
+use std::time::Instant;
 
-
-
-pub fn sort(array: &mut [usize;width], matriz: &mut [[&str;width];height]){
-
-    let mut op = Operations{time:0, movs:0, comp:0};
-    let start = std::time::Instant::now();
-    while !isSorted(array){
-        shuffle(array, matriz);
-        op.time = start.elapsed().as_millis();
-        op.movs += 1;
-        op.comp += 1;
-        print_Matriz(matriz, array, SortType::Void, &op);
+pub fn sort(sorting: &mut Sorting) {
+    let start = Instant::now();
+    
+    while !is_sorted(&sorting.array) {
+        shuffle(sorting);
+        sorting.operations.time = start.elapsed().as_millis();
+        sorting.operations.movs += 1;
+        sorting.operations.comp += 1;
+        print_Matriz(sorting, SortType::Void);
     }
-    for i in 0..array.len(){
-        print_Matriz(matriz, array, SortType::RangeUnique(i+1), &op);
+
+    // Finalizar com o array ordenado
+    for i in 0..sorting.array.len() {
+        print_Matriz(sorting, SortType::RangeUnique(i + 1));
     }
 }
 
-fn isSorted(array: &[usize;width]) -> bool{
-    for i in 1..array.len(){
-        if array[i] < array[i-1]{
+fn is_sorted(array: &[usize]) -> bool {
+    for i in 1..array.len() {
+        if array[i] < array[i - 1] {
             return false;
         }
     }
     true
-}   
+}

@@ -1,11 +1,7 @@
 /// Constantes do programa
 /// #height: Altura da matriz  
-pub const height: usize = 50;
 
-/// #width: Largura da matriz
-pub const width: usize = 220;
 /// #delay: Delay entre as operações
-pub const delay: usize = 5;
 pub const RED: &str = "\x1b[31m"; // Cor vermelha
 pub const GREEN: &str = "\x1b[32m"; // Cor verde
 pub const AMBER: &str = "\x1b[33m"; // Cor âmbar

@@ -1,30 +1,28 @@
-//use std::thread;
-
-use crate::Tools::Op::Matriz::{SortType, print_Matriz, Operations};
+use crate::Tools::Op::interface::{SortType, print_Matriz, Sorting};
 use crate::Tools::Op::Constantes::*;
 
-// use std::time::Duration;
-
-pub fn sort(array: &mut [usize; width], matriz: &mut [[&str; width]; height]) {
-    let mut op = Operations { time: 0, movs: 0, comp: 0 };
+// Função principal de ordenação que agora usa a struct `Sorting`
+pub fn sort(sorting: &mut Sorting) {
     let start: std::time::Instant = std::time::Instant::now();
-    merge_sort(array, 0, array.len() - 1, matriz, &mut op,start);
-    op.time = start.elapsed().as_millis();
-    for i in 0..array.len() {
-        print_Matriz(matriz, array,  SortType::RangeUnique(i + 1), &op);
+    merge_sort(sorting, 0, sorting.array.len() - 1, start);
+    sorting.operations.time = start.elapsed().as_millis();
+    for i in 0..sorting.array.len() {
+        print_Matriz(sorting, SortType::RangeUnique(i + 1));
     }
 }
 
-fn merge_sort(array: &mut [usize; width], l: usize, r: usize, matriz: &mut [[&str; width]; height], op: &mut Operations,start: std::time::Instant) {
+// Função merge_sort ajustada para receber a struct `Sorting`
+fn merge_sort(sorting: &mut Sorting, l: usize, r: usize, start: std::time::Instant) {
     if l < r {
         let m = l + (r - l) / 2;
-        merge_sort(array, l, m, matriz, op,start);
-        merge_sort(array, m + 1, r, matriz, op,start);
-        merge(array, l, m, r, matriz, op,start);
+        merge_sort(sorting, l, m, start);
+        merge_sort(sorting, m + 1, r, start);
+        merge(sorting, l, m, r, start);
     }
 }
 
-fn merge(array: &mut [usize; width], l: usize, m: usize, r: usize, matriz: &mut [[&str; width]; height], op: &mut Operations,start: std::time::Instant) {
+// Função merge ajustada para usar a struct `Sorting`
+fn merge(sorting: &mut Sorting, l: usize, m: usize, r: usize, start: std::time::Instant) {
     let n1 = m - l + 1;
     let n2 = r - m;
 
@@ -32,10 +30,10 @@ fn merge(array: &mut [usize; width], l: usize, m: usize, r: usize, matriz: &mut 
     let mut R = vec![0; n2];
 
     for i in 0..n1 {
-        L[i] = array[l + i];
+        L[i] = sorting.array[l + i];
     }
     for i in 0..n2 {
-        R[i] = array[m + 1 + i];
+        R[i] = sorting.array[m + 1 + i];
     }
 
     let mut i = 0;
@@ -44,40 +42,40 @@ fn merge(array: &mut [usize; width], l: usize, m: usize, r: usize, matriz: &mut 
 
     while i < n1 && j < n2 {
         if L[i] <= R[j] {
-            array[k] = L[i];
+            sorting.array[k] = L[i];
             i += 1;
         } else {
-            array[k] = R[j];
+            sorting.array[k] = R[j];
             j += 1;
         }
         k += 1;
-        op.movs += 1;
-        op.comp += 1;
-        op.time = start.elapsed().as_millis();
-        if k % delay == 0 {
-            print_Matriz(matriz, array,  SortType::RangeUnique(k), op);
+        sorting.operations.movs += 1;
+        sorting.operations.comp += 1;
+        sorting.operations.time = start.elapsed().as_millis();
+        if k % sorting.get_delay() == 0 {
+            print_Matriz(sorting, SortType::RangeUnique(k));
         }
     }
 
     while i < n1 {
-        array[k] = L[i];
+        sorting.array[k] = L[i];
         i += 1;
         k += 1;
-        op.time = start.elapsed().as_millis();
-        op.movs += 1;
-        if k % delay == 0 {
-            print_Matriz(matriz, array,  SortType::RangeUnique(k), op);
+        sorting.operations.time = start.elapsed().as_millis();
+        sorting.operations.movs += 1;
+        if k % sorting.get_delay() == 0 {
+            print_Matriz(sorting, SortType::RangeUnique(k));
         }
     }
 
     while j < n2 {
-        array[k] = R[j];
+        sorting.array[k] = R[j];
         j += 1;
         k += 1;
-        op.time = start.elapsed().as_millis();
-        op.movs += 1;
-        if k % delay == 0 {
-            print_Matriz(matriz, array,  SortType::RangeUnique(k), op);
+        sorting.operations.time = start.elapsed().as_millis();
+        sorting.operations.movs += 1;
+        if k % sorting.get_delay() == 0 {
+            print_Matriz(sorting, SortType::RangeUnique(k));
         }
     }
 }
