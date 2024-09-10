@@ -165,3 +165,6 @@ fn main() {
     }
 }
 
+//delay : 4
+//width : 250
+//height : 75
