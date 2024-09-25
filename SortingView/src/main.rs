@@ -91,8 +91,8 @@ fn config_menu(sorting : &mut Sorting){
     
 
 fn main() {
-    let mut height = 50;
-    let mut width = 200;
+    let height = 50;
+    let width = 200;
     print!("{hide_cursor}");
     let mut sorting_interface: Sorting = Sorting::new(width, height);
     

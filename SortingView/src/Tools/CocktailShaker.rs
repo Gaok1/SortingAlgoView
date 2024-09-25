@@ -24,7 +24,7 @@ pub fn sort(sorting: &mut Sorting) {
                 print_Matriz(sorting, SortType::TwoRange(i, i + 1));
             }
         }
-
+  
         if !swapped {
             break;
         }
