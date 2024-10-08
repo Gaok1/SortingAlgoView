@@ -30,6 +30,7 @@ This project is a sorting algorithm visualizer that runs in the terminal, specif
    - `5` : Stalin Sort
    - `6` : Cocktail Shaker Sort
    - `7` : Merge Sort
+   - `8` : Heap Sort
    - `q` : Quit
 
 
