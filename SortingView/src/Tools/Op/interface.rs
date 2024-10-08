@@ -31,7 +31,7 @@ pub struct Operations{
     pub comp: u64,
 }
 impl Operations{
-    fn reset(&mut self){
+    pub fn reset(&mut self){
         self.time = 0;
         self.movs = 0;
         self.comp = 0;

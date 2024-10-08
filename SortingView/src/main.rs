@@ -16,6 +16,7 @@ mod Tools{
     pub mod StalinSort;
     pub mod CocktailShaker;
     pub mod MergeSort;
+    pub mod HeapSort;
 }
 
 use Tools::BogoSort;
@@ -28,7 +29,7 @@ use Tools::Op::Constantes::RED;
 use Tools::Op::interface::*;
 use Tools::Op::Constantes::{AMBER, RESET_COLOR, hide_cursor};
 use Tools::QuickSort;
-
+use Tools::HeapSort;
 use Tools::SelectionSort;
 use Tools::StalinSort;
 
@@ -107,6 +108,7 @@ fn main() {
         println!(" 5. Stalin Sort");
         println!(" 6. Cocktail Shaker Sort");
         println!(" 7. Merge Sort");
+        println!(" 8. Heap Sort");
         println!(" *. config menu");
         println!(" q. Sair");
 
@@ -151,6 +153,10 @@ fn main() {
                 println!("Merge Sort Selected!");
                 MergeSort::sort(&mut sorting_interface);
             }
+            "8" => {
+                println!("Heap Sort Selected!");
+                HeapSort::sort(&mut sorting_interface);
+            }
             "*"=>{
                 config_menu(&mut sorting_interface);
             }
@@ -160,8 +166,10 @@ fn main() {
             }
             _ => println!("{} is invalid! {}",RED,RESET_COLOR),
         }
+
         print!("{}",RESET_COLOR);
         //limpar stdin
+        sorting_interface.operations.reset();
     }
 }
 
