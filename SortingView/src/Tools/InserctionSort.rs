@@ -1,6 +1,7 @@
-use crate::Tools::Op::interface::{SortType, print_Matriz, Sorting};
+use crate::Tools::Op::interface::{renderInterface, SortType, Sorting};
 use crate::Tools::Op::Constantes::*;
-use std::time::Instant;
+use std::thread::sleep;
+use std::time::{Duration, Instant};
 
 pub fn sort(sorting: &mut Sorting) {
     let start = Instant::now();
@@ -13,13 +14,12 @@ pub fn sort(sorting: &mut Sorting) {
             sorting.operations.movs += 3;
             sorting.operations.comp += 2;
             sorting.operations.time = start.elapsed().as_millis();
-            if j % sorting.get_delay() == 0 {
-                print_Matriz(sorting, SortType::RangeUnique(j));
-            }
+
+            renderInterface(sorting, SortType::RangeUnique(j));
+            sleep(Duration::from_millis(sorting.get_delay()));
         }
     }
-
     for i in 0..sorting.array.len() {
-        print_Matriz(sorting, SortType::RangeUnique(i + 1));
+        renderInterface(sorting, SortType::RangeUnique(i + 1));
     }
 }

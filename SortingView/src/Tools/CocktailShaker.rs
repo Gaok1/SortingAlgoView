@@ -1,6 +1,7 @@
-use crate::Tools::Op::interface::{SortType, print_Matriz, Sorting};
+use crate::Tools::Op::interface::{SortType, renderInterface, Sorting};
 use crate::Tools::Op::Constantes::*;
-use std::time::Instant;
+use std::thread::sleep;
+use std::time::{Duration, Instant};
 
 pub fn sort(sorting: &mut Sorting) {
     let this_delay = sorting.get_delay() * 2;
@@ -20,9 +21,10 @@ pub fn sort(sorting: &mut Sorting) {
                 sorting.operations.movs += 3;
             }
             sorting.operations.comp += 1;
-            if i % this_delay == 0 {
-                print_Matriz(sorting, SortType::TwoRange(i, i + 1));
-            }
+           
+            renderInterface(sorting, SortType::TwoRange(i, i + 1));
+            sleep(Duration::from_millis(sorting.get_delay()));
+            
         }
   
         if !swapped {
@@ -40,9 +42,10 @@ pub fn sort(sorting: &mut Sorting) {
                 sorting.operations.movs += 3;
             }
             sorting.operations.comp += 1;
-            if i % this_delay == 0 {
-                print_Matriz(sorting, SortType::TwoRange(i, i + 1));
-            }
+           
+                renderInterface(sorting, SortType::TwoRange(i, i + 1));
+                sleep(Duration::from_millis(sorting.get_delay()));
+            
         }
         start += 1;
     }
@@ -51,6 +54,6 @@ pub fn sort(sorting: &mut Sorting) {
     
     // Finalizar com o array ordenado
     for i in 0..sorting.array.len() {
-        print_Matriz(sorting, SortType::RangeUnique(i + 1));
+        renderInterface(sorting, SortType::RangeUnique(i + 1));
     }
 }

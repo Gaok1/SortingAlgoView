@@ -1,4 +1,7 @@
-use crate::Tools::Op::interface::{SortType, print_Matriz, Sorting};
+use std::thread::sleep;
+use std::time::Duration;
+
+use crate::Tools::Op::interface::{renderInterface, SortType, Sorting};
 use crate::Tools::Op::Constantes::*;
 
 // Função principal de ordenação que agora usa a struct `Sorting`
@@ -7,7 +10,7 @@ pub fn sort(sorting: &mut Sorting) {
     merge_sort(sorting, 0, sorting.array.len() - 1, start);
     sorting.operations.time = start.elapsed().as_millis();
     for i in 0..sorting.array.len() {
-        print_Matriz(sorting, SortType::RangeUnique(i + 1));
+        renderInterface(sorting, SortType::RangeUnique(i + 1));
     }
 }
 
@@ -52,9 +55,9 @@ fn merge(sorting: &mut Sorting, l: usize, m: usize, r: usize, start: std::time::
         sorting.operations.movs += 1;
         sorting.operations.comp += 1;
         sorting.operations.time = start.elapsed().as_millis();
-        if k % sorting.get_delay() == 0 {
-            print_Matriz(sorting, SortType::RangeUnique(k));
-        }
+
+        renderInterface(sorting, SortType::RangeUnique(k));
+        sleep(Duration::from_millis(sorting.get_delay()));
     }
 
     while i < n1 {
@@ -63,9 +66,9 @@ fn merge(sorting: &mut Sorting, l: usize, m: usize, r: usize, start: std::time::
         k += 1;
         sorting.operations.time = start.elapsed().as_millis();
         sorting.operations.movs += 1;
-        if k % sorting.get_delay() == 0 {
-            print_Matriz(sorting, SortType::RangeUnique(k));
-        }
+
+        renderInterface(sorting, SortType::RangeUnique(k));
+        sleep(Duration::from_millis(sorting.get_delay()));
     }
 
     while j < n2 {
@@ -74,8 +77,8 @@ fn merge(sorting: &mut Sorting, l: usize, m: usize, r: usize, start: std::time::
         k += 1;
         sorting.operations.time = start.elapsed().as_millis();
         sorting.operations.movs += 1;
-        if k % sorting.get_delay() == 0 {
-            print_Matriz(sorting, SortType::RangeUnique(k));
-        }
+
+        renderInterface(sorting, SortType::RangeUnique(k));
+        sleep(Duration::from_millis(sorting.get_delay()));
     }
 }

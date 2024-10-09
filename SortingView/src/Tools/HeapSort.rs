@@ -1,6 +1,9 @@
-use crate::Tools::Op::interface::{print_Matriz, SortType, Sorting};
+use crate::Tools::Op::interface::{renderInterface, SortType, Sorting};
 
-use std::{thread::sleep, time::{Duration, Instant}};
+use std::{
+    thread::sleep,
+    time::{Duration, Instant},
+};
 
 // Função para ajustar a posição para cima (Heapify Up)
 fn check_position_up(sorting: &mut Sorting, idx: usize, start: &Instant) {
@@ -17,12 +20,8 @@ fn check_position_up(sorting: &mut Sorting, idx: usize, start: &Instant) {
             sorting.operations.movs += 3; // swap conta como 3 movimentos
             current_idx = father_idx;
             sorting.operations.time = start.elapsed().as_millis();
-
-            // Verifica se deve imprimir a matriz
-            if current_idx % sorting.get_delay() == 0 {
-                print_Matriz(sorting, SortType::RangeUnique(current_idx));
-                sleep(Duration::from_millis(20));
-            }
+            renderInterface(sorting, SortType::RangeUnique(current_idx));
+            sleep(Duration::from_millis(sorting.get_delay()));
         } else {
             break;
         }
@@ -43,7 +42,6 @@ fn check_position_down(sorting: &mut Sorting, idx: usize, last_idx: usize, start
                 max_idx = son1_idx;
             }
         }
-
         if son2_idx < last_idx {
             sorting.operations.comp += 1;
             if sorting.array[son2_idx] > sorting.array[max_idx] {
@@ -57,10 +55,9 @@ fn check_position_down(sorting: &mut Sorting, idx: usize, last_idx: usize, start
             sorting.operations.time = start.elapsed().as_millis();
 
             // Verifica se deve imprimir a matriz
-            if max_idx % sorting.get_delay() == 0 {
-                print_Matriz(sorting, SortType::RangeUnique(max_idx));
-                sleep(Duration::from_millis(20));
-            }
+
+            renderInterface(sorting, SortType::RangeUnique(max_idx));
+            sleep(Duration::from_millis(sorting.get_delay()));
 
             current_idx = max_idx;
         } else {
@@ -80,22 +77,22 @@ fn heapify(sorting: &mut Sorting, start: &Instant) {
 pub fn sort(sorting: &mut Sorting) {
     let start = Instant::now();
 
-    // Construir o Heap máximo
     heapify(sorting, &start);
 
-    // Realizar o Heap Sort
     let mut last = sorting.array.len();
     while last > 1 {
         last -= 1;
         sorting.array.swap(0, last);
         sorting.operations.movs += 3; // swap conta como 3 movimentos
         sorting.operations.time = start.elapsed().as_millis();
-        
-        // Exibir a matriz após cada swap
-        print_Matriz(sorting, SortType::RangeUnique(last));
-        sleep(Duration::from_millis(10));
 
-        // Ajustar o Heap para a subárvore afetada
+        // Exibir a matriz após cada swap
+        renderInterface(sorting, SortType::RangeUnique(last));
+        sleep(Duration::from_millis(sorting.get_delay()));
         check_position_down(sorting, 0, last, &start);
+    }
+
+    for i in 0..sorting.array.len() {
+        renderInterface(sorting, SortType::RangeUnique(i + 1));
     }
 }

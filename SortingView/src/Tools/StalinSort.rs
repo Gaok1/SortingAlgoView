@@ -1,5 +1,5 @@
 use crate::Tools::Op::*;
-use crate::Tools::Op::interface::{SortType, print_Matriz, Sorting};
+use crate::Tools::Op::interface::{SortType, renderInterface, Sorting};
 
 // StalinSort
 pub fn sort(sorting: &mut Sorting) {
@@ -16,14 +16,14 @@ pub fn sort(sorting: &mut Sorting) {
             sorting.operations.movs += 1;
             sorting.operations.comp += 1;
             sorting.operations.time = start.elapsed().as_millis();
-            print_Matriz(sorting, SortType::RangeUnique(i));
+            renderInterface(sorting, SortType::RangeUnique(i));
         } else {
             i += 1;
         }
     }
 
     for i in 0..newarray.len() {
-        print_Matriz(sorting, SortType::RangeUnique(i + 1));
+        renderInterface(sorting, SortType::RangeUnique(i + 1));
     }
 
     sorting.array = newarray; // Atualiza o array na estrutura com o array modificado

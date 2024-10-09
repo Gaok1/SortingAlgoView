@@ -1,4 +1,4 @@
-use crate::Tools::Op::interface::{SortType, print_Matriz, shuffle, Sorting};
+use crate::Tools::Op::interface::{SortType, renderInterface, shuffle, Sorting};
 use crate::Tools::Op::Constantes::*;
 use std::time::Instant;
 
@@ -10,12 +10,12 @@ pub fn sort(sorting: &mut Sorting) {
         sorting.operations.time = start.elapsed().as_millis();
         sorting.operations.movs += 1;
         sorting.operations.comp += 1;
-        print_Matriz(sorting, SortType::Void);
+        renderInterface(sorting, SortType::Void);
     }
 
     // Finalizar com o array ordenado
     for i in 0..sorting.array.len() {
-        print_Matriz(sorting, SortType::RangeUnique(i + 1));
+        renderInterface(sorting, SortType::RangeUnique(i + 1));
     }
 }
 

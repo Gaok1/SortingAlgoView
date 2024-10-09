@@ -1,4 +1,7 @@
+use std::process::Command;
 use std::vec;
+
+use text_io::scan;
 
 //random
 use rand::Rng;
@@ -39,7 +42,6 @@ fn clear(){
     
 }
 
-const STANDARD_DELAY: usize = 10;
 const STANDARD_WIDTH: usize = 200;
 const STANDARD_HEIGHT: usize = 50;
 
@@ -76,7 +78,7 @@ fn config_menu(sorting : &mut Sorting){
             println!("Change Delay");
             let mut delay = String::new();
             std::io::stdin().read_line(&mut delay).unwrap();
-            let delay: usize = delay.trim().parse().unwrap();
+            let delay: u64 = delay.trim().parse().unwrap();
             sorting.set_delay(delay);
         }
         "5" => {
@@ -111,9 +113,9 @@ fn main() {
         println!(" 8. Heap Sort");
         println!(" *. config menu");
         println!(" q. Sair");
-
+        
         let mut input = String::new();
-        std::io::stdin().read_line(&mut input).unwrap();
+        scan!("{}\n",input);
         clear();
         print!("{}",AMBER);
         match input.trim() {
@@ -170,6 +172,7 @@ fn main() {
         print!("{}",RESET_COLOR);
         //limpar stdin
         sorting_interface.operations.reset();
+        Command::new("cls").spawn();
     }
 }
 
